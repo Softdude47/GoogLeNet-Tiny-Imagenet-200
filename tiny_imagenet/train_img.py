@@ -26,13 +26,11 @@ ap.add_argument(
     "-c",
     "--checkpoint",
     required=True,
-    help="path to store model checkpoints",
-    default=os.path.sep.join([config.OUTPUT, "checkpoints"])
 )
 args = vars(ap.parse_args())
 
 # load datasets RGB mean values
-mean = json.loads(config.DATASET_MEAN)
+mean = json.loads(open(config.DATASET_MEAN).read())
 
 # initiailze preprocessors
 iap = ImageToArrayPreprocessor().preprocess
@@ -49,6 +47,7 @@ aug = ImageDataGenerator(
 )
 gen = ImageDatasetGenerator(
     paths=config.TRAIN_IMAGE,
+    label_index=-3, # index of label in list generated path(os.path.sep)
     batch_size=config.BATCH_SIZE,
     preprocessors=[mp, iap],
     aug=aug.flow,
@@ -71,7 +70,7 @@ if args["model"] is None:
 
     # build and compile model
     model = DeeperGoogLeNet.build(config.IMAGE_HEIGHT, config.IMAGE_WIDTH, 3, config.NUM_CLASSES, 0.000503)
-    model.compile(optimzer=sgd, loss="categorical_crossentropy", metrics=["accuracy"])
+    model.compile(optimizer=sgd, loss="categorical_crossentropy", metrics=["accuracy"])
 
 # loads previously saved model(if any)
 else:

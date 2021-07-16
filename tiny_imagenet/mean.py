@@ -48,7 +48,7 @@ pbar.finish()
 mean = {"B": np.mean(B), "G": np.mean(G), "R": np.mean(R)}
 
 # save the averaged mean values to json file
-with open(config.DATASET_MEAN) as f:
+with open(config.DATASET_MEAN, "w") as f:
     f.write(json.dumps(mean))
     f.close()
 

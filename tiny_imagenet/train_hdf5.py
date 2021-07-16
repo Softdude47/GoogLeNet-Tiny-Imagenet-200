@@ -29,7 +29,7 @@ ap.add_argument(
 args = vars(ap.parse_args())
 
 # load datasets mean preprocessor
-mean = json.loads(config.DATASET_MEAN)
+mean = json.loads(open(config.DATASET_MEAN).read())
 
 # initialize dataset preprocessor
 mp = MeanPreprocessor(rMean=mean["R"], gMean=mean["G"], bMean=mean["B"])
@@ -60,7 +60,7 @@ if args["model"] is None:
 
     # build and compile model
     model = DeeperGoogLeNet.build(config.IMAGE_HEIGHT, config.IMAGE_WIDTH, 3, config.NUM_CLASSES, 0.000503)
-    model.compile(optimzer=sgd, loss="categorical_crossentropy", metrics=["accuracy"])
+    model.compile(optimizer=sgd, loss="categorical_crossentropy", metrics=["accuracy"])
 
 # loads previously saved model(if any)
 else:
