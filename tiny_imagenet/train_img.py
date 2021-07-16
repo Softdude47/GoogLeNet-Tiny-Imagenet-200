@@ -46,7 +46,7 @@ aug = ImageDataGenerator(
     height_shift_range = 0.1,
 )
 gen = ImageDatasetGenerator(
-    paths=config.TRAIN_IMAGE,
+    path=config.TRAIN_IMAGE,
     label_index=-3, # index of label in list generated path(os.path.sep)
     batch_size=config.BATCH_SIZE,
     preprocessors=[mp, iap],
