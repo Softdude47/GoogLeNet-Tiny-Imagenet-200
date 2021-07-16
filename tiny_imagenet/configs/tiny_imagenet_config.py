@@ -10,14 +10,17 @@ WORD_MAPPING = "../datasets/tiny-imagenet-200/words.txt"
 VAL_MAPPING = "../datasets/tiny-imagenet-200/val/val_annotations.txt"
 
 # HDF5 dataset directories
-TRAIN_HDF5 = "../datasets/hdf/train.hdf5"
-TEST_HDF5 = "../datasets/hdf/test.hdf5"
-VAL_HDF5 = "../datasets/hdf5/val.hdf5"
+HDF_PATH = "../datasets/hdf5"
+os.makedirs(HDF_PATH, exist_ok=True)
+
+TRAIN_HDF5 = os.path.sep.join([HDF_PATH, "train.hdf5"])
+TEST_HDF5 = os.path.sep.join([HDF_PATH, "test.hdf5"])
+VAL_HDF5 = os.path.sep.join([HDF_PATH, "val.hdf5"])
 
 EPOCHS = 100
 BATCH_SIZE = 128
 DECAY_POWER = 1
-LEARNING_RATE = 55e-4
+LEARNING_RATE = 55e-2
 
 NUM_CLASSES = 200
 NUM_IMAGES = 500 * NUM_CLASSES
@@ -28,6 +31,7 @@ IMAGE_HEIGHT = 64
 
 # output paths
 OUTPUT = "../outputs"
+os.makedirs(OUTPUT, exist_ok=True)
 
 # path to store dataset's RGB mean and trained model
 DATASET_MEAN = os.path.sep.join([OUTPUT, "mean.json"])
