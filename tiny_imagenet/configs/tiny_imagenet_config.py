@@ -18,9 +18,9 @@ TEST_HDF5 = os.path.sep.join([HDF_PATH, "test.hdf5"])
 VAL_HDF5 = os.path.sep.join([HDF_PATH, "val.hdf5"])
 
 EPOCHS = 100
-BATCH_SIZE = 128
+BATCH_SIZE = 1000
 DECAY_POWER = 1
-LEARNING_RATE = 55e-2
+LEARNING_RATE = 1e-03
 
 NUM_CLASSES = 200
 NUM_IMAGES = 500 * NUM_CLASSES
@@ -38,8 +38,8 @@ DATASET_MEAN = os.path.sep.join([OUTPUT, "mean.json"])
 MODEL_PATH = os.path.sep.join([OUTPUT, "deepergooglenet-tiny-imagenet.h5"])
 
 # path to store model metrics during train
-FIG_PATH = os.path.sep.join([OUTPUT, f"{os.getpid()}.png"])
-JSON_PATH = os.path.sep.join([OUTPUT, f"{os.getpid()}.json"])
+FIG_PATH = os.path.sep.join([OUTPUT, "tiny-imagenet.png"])
+JSON_PATH = os.path.sep.join([OUTPUT, "tiny-imagenet.json"])
 
 # extract labels from image path, mappings
 def get_label(path):
