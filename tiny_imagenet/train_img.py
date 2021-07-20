@@ -1,12 +1,10 @@
-
-import os
 import sys
 import json
 import argparse
 from tensorflow.keras import backend as K
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import load_model
-from tensorflow.keras.callbacks import LearningRateScheduler
+# from tensorflow.keras.callbacks import LearningRateScheduler
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 sys.path.append("../")
@@ -40,7 +38,7 @@ mp = MeanPreprocessor(rMean=mean["R"], gMean=mean["G"], bMean=mean["B"]).preproc
 aug = ImageDataGenerator(
     zoom_range = 0.2,
     shear_range = 0.2,
-    rotation_range = 30,
+    rotation_range = 18,
     horizontal_flip = True,
     width_shift_range = 0.1,
     height_shift_range = 0.1,
@@ -58,7 +56,7 @@ gen = ImageDatasetGenerator(
 
 # create model callbacks
 callbacks=[
-    LearningRateScheduler(config.poly_weight_decay),
+    # LearningRateScheduler(config.poly_weight_decay),
     TrainingMonitor(config.FIG_PATH, config.JSON_PATH, args.get("start_at", 0)),
     EpochCheckpoint(path=args["checkpoint"], interval=5)
 ]
@@ -66,11 +64,11 @@ callbacks=[
 # creates new model if there wasn't a pevious one
 if args["model"] is None:
     # initialize and tune model optimizer
-    sgd = SGD(learning_rate=config.LEARNING_RATE, momentum=0.9)
+    opt = Adam(config.LEARNING_RATE)
 
     # build and compile model
-    model = DeeperGoogLeNet.build(config.IMAGE_HEIGHT, config.IMAGE_WIDTH, 3, config.NUM_CLASSES, 0.000503)
-    model.compile(optimizer=sgd, loss="categorical_crossentropy", metrics=["accuracy"])
+    model = DeeperGoogLeNet.build(config.IMAGE_HEIGHT, config.IMAGE_WIDTH, 3, config.NUM_CLASSES, 0.0002)
+    model.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])
 
 # loads previously saved model(if any)
 else:
